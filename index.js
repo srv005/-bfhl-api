@@ -2,19 +2,18 @@ const express = require("express");
 const cors = require("cors");
 
 const app = express();
-
 const PORT = process.env.PORT || 10000;
 
 app.use(express.json());
 app.use(cors());
 
 
-// app.get("/", (req, res) => {
-//   res.send("API running 🚀");
-// });
+app.get("/", (req, res) => {
+  res.send("API running 🚀");
+});
 
 
-app.post("/", (req, res) => {
+app.post("/bfhl", (req, res) => {
   const data = req.body.data || [];
 
   let valid = [];
@@ -43,7 +42,7 @@ app.post("/", (req, res) => {
   valid.forEach(edge => {
     let [parent, child] = edge.split("->");
 
-    // multi-parent handling (ignore if already has parent)
+    
     if (parentMap[child]) return;
     parentMap[child] = parent;
 
@@ -67,8 +66,7 @@ app.post("/", (req, res) => {
     if (map[node]) {
       map[node].forEach(child => {
         let res = buildTree(child, new Set(visited));
-        if (res.cycle) obj = {};
-        else obj[child] = res;
+        if (!res.cycle) obj[child] = res;
       });
     }
     return obj;
@@ -98,6 +96,7 @@ app.post("/", (req, res) => {
       });
     } else {
       let depth = getDepth(root);
+
       if (depth > maxDepth) {
         maxDepth = depth;
         largestRoot = root;
@@ -128,13 +127,8 @@ app.post("/", (req, res) => {
     }
   });
 });
-// app.get("/", (req, res) => {
-//   res.send("BFHL GET working");
-// });
 
-app.use(cors({
-  origin: "*", 
-}));
+
 app.listen(PORT, () => {
   console.log("Server running on port " + PORT);
 });
