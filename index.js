@@ -3,7 +3,7 @@ const cors = require("cors");
 
 const app = express();
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 10000;
 
 app.use(express.json());
 app.use(cors());
@@ -128,9 +128,9 @@ app.post("/bfhl", (req, res) => {
     }
   });
 });
-
-
-
+app.get("/bfhl", (req, res) => {
+  res.send("BFHL GET working");
+});
 
 app.listen(PORT, () => {
   console.log("Server running on port " + PORT);

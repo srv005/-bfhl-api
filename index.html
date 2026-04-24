@@ -5,41 +5,41 @@
 </head>
 <body>
 
-<h2>BFHL API Tester </h2>
+<h2>BFHL API Tester</h2>
 
 <textarea id="input" rows="5" cols="40">
 ["A->B","A->C","B->D"]
 </textarea>
 <br><br>
 
-<button onclick="callApi()">Send Request</button>
+<button onclick="sendRequest()">Send Request</button>
 
 <pre id="output"></pre>
 
 <script>
-async function callApi() {
-  const input = document.getElementById("input").value;
+async function sendRequest() {
+  const raw = document.getElementById("input").value;
 
-  let data;
+  let dataArray;
   try {
-    data = JSON.parse(input);
+    dataArray = JSON.parse(raw);
   } catch (e) {
-    alert("Invalid JSON input");
+    alert("Invalid JSON format");
     return;
   }
 
-  const res = await fetch("http://localhost:8001/bfhl", {
+  const response = await fetch("https://bfhl-api-3147.onrender.com/bfhl", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({ data })
+    body: JSON.stringify({
+      data: dataArray
+    })
   });
 
-  const result = await res.json();
-
-  document.getElementById("output").innerText =
-    JSON.stringify(result, null, 2);
+  const result = await response.json();
+  document.getElementById("output").innerText = JSON.stringify(result, null, 2);
 }
 </script>
 
