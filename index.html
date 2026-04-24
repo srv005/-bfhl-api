@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BFHL API Tester</title>
+</head>
+<body>
+
+<h2>BFHL API Tester </h2>
+
+<textarea id="input" rows="5" cols="40">
+["A->B","A->C","B->D"]
+</textarea>
+<br><br>
+
+<button onclick="callApi()">Send Request</button>
+
+<pre id="output"></pre>
+
+<script>
+async function callApi() {
+  const input = document.getElementById("input").value;
+
+  let data;
+  try {
+    data = JSON.parse(input);
+  } catch (e) {
+    alert("Invalid JSON input");
+    return;
+  }
+
+  const res = await fetch("http://localhost:8001/bfhl", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ data })
+  });
+
+  const result = await res.json();
+
+  document.getElementById("output").innerText =
+    JSON.stringify(result, null, 2);
+}
+</script>
+
+</body>
+</html>
