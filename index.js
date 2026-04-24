@@ -128,9 +128,9 @@ app.post("/", (req, res) => {
     }
   });
 });
-app.get("/", (req, res) => {
-  res.send("BFHL GET working");
-});
+// app.get("/", (req, res) => {
+//   res.send("BFHL GET working");
+// });
 
 app.use(cors({
   origin: "*", 
